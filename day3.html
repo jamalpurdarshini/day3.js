@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #userListContainer {
+            margin-top: 30px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #userListContainer h2 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        #userList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #userList li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        #userList li:last-child {
+            border-bottom: none;
+        }
+
+        #userList li span {
+            margin-left: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile Manager</h1>
+
+    <button id="addUserBtn">Add New User</button>
+    <button id="showUsersBtn">Show Users</button>
+    <button id="clearUsersBtn">Clear Users</button>
+
+    <div id="userListContainer">
+        <h2>User List</h2>
+        <ul id="userList">
+            </ul>
+    </div>
+
+    <script>
+        const addUserBtn = document.getElementById('addUserBtn');
+        const showUsersBtn = document.getElementById('showUsersBtn');
+        const clearUsersBtn = document.getElementById('clearUsersBtn');
+        const userListContainer = document.getElementById('userListContainer');
+        const userListElement = document.getElementById('userList');
+
+        let users = [];
+        let nextUserId = 1;
+
+        addUserBtn.addEventListener('click', () => {
+            const userName = prompt('Enter user name:');
+            if (userName) {
+                const trimmedName = userName.trim();
+                if (trimmedName) {
+                    const newUser = {
+                        id: nextUserId++,
+                        name: trimmedName.toUpperCase(),
+                        email: `${trimmedName.toLowerCase().replace(/\s+/g, '')}@example.com`
+                    };
+                    users.push(newUser);
+                    updateUserListDisplay();
+                    window.alert('User added successfully!');
+                } else {
+                    window.alert('User name cannot be empty.');
+                }
+            }
+        });
+
+        showUsersBtn.addEventListener('click', () => {
+            console.log('Users:', JSON.stringify(users));
+        });
+
+        clearUsersBtn.addEventListener('click', () => {
+            users = [];
+            updateUserListDisplay();
+            window.alert('All users cleared!');
+        });
+
+        function updateUserListDisplay() {
+            userListElement.innerHTML = ''; // Clear the current list
+            users.forEach((user, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${index + 1}. ${user.name}</strong> <span>(${user.email})</span>`;
+                userListElement.appendChild(listItem);
+            });
+        }
+
+        // Initial display
+        updateUserListDisplay();
+    </script>
+</body>
+</html>
